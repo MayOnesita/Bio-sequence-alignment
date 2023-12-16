@@ -13,8 +13,8 @@ data Direction = Stop
 
 -- Constantes
 matchScore, mismatchScore, gapScore :: Int
-matchScore = 1
-mismatchScore = -1
+matchScore = 3
+mismatchScore = -3
 gapScore = -2
 
 -- Smith-Waterman
@@ -56,11 +56,11 @@ tracebackAlignment scoreMatrix tb s1 s2 = go (maxIndices scoreMatrix) ([], [])
         LeftDir -> go (i, j-1) ('-' : as1, s2!!(j-1) : as2)
 
     maxIndices :: ScoreMatrix -> (Int, Int)
-    maxIndices sm = fst $ maximumBy (comparing snd) (assocs sm)
+    maxIndices sm = fst (maximumBy (comparing snd) (assocs sm))
 
 -- Imprimir matriz de puntuación
 print2DScoreMatrix :: ScoreMatrix -> IO ()
-print2DScoreMatrix sm = mapM_ putStrLn [intercalate " " $ map (show . (sm!)) [(i, j) | j <- [0..n]] | i <- [0..m]]
+print2DScoreMatrix sm = mapM_ putStrLn [intercalate " " (map (show . (sm!)) [(i, j) | j <- [0..n]]) | i <- [0..m]]
   where
     ((_, _), (m, n)) = bounds sm
 
