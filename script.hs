@@ -1,3 +1,7 @@
+-- ENLACE A LA PRESENTACION: 
+-- https://www.canva.com/design/DAF3Jyf_ZAk/AHZ_z_K-BJkYO79g7g0-_Q/view?utm_content=DAF3Jyf_ZAk&utm_campaign=designshare&utm_medium=link&utm_source=editor
+
+
 import Data.Array
 import Data.List (intercalate, maximumBy)
 import Data.Ord (comparing)
@@ -10,6 +14,14 @@ data Direction = Stop
                  | Up 
                  | Diag 
                  deriving (Eq)
+
+-- EJEMPLOS
+adn1, adn2, arn1, arn2 :: String
+adn1 = "TGTTACGG"
+adn2 = "GGTTGACTA"
+
+arn1 = "LGPSSKQTGKGSSRIWDN"
+arn2 = "LNITKSAGKGAIMRLGDA"
 
 -- Constantes
 matchScore, mismatchScore, gapScore :: Int
@@ -59,10 +71,23 @@ tracebackAlignment scoreMatrix tb s1 s2 = go (maxIndices scoreMatrix) ([], [])
     maxIndices sm = fst (maximumBy (comparing snd) (assocs sm))
 
 -- Imprimir matriz de puntuación
-print2DScoreMatrix :: ScoreMatrix -> IO ()
-print2DScoreMatrix sm = mapM_ putStrLn [intercalate " " (map (show . (sm!)) [(i, j) | j <- [0..n]]) | i <- [0..m]]
+-- print2DScoreMatrix :: ScoreMatrix -> IO ()
+-- print2DScoreMatrix sm = mapM_ putStrLn [intercalate " " (map (show . (sm!)) [(i, j) | j <- [0..n]]) | i <- [0..m]]
+--   where
+--     ((_, _), (m, n)) = bounds sm
+
+
+-- Imprimir matriz de puntuación con caracteres
+print2DScoreMatrix :: String -> String -> ScoreMatrix -> IO ()
+print2DScoreMatrix s1 s2 sm = do
+  putStrLn $ "    " ++ intercalate " " (map (\c -> [c]) s2)
+  mapM_ printRow [0..m]
   where
     ((_, _), (m, n)) = bounds sm
+
+    printRow i = do
+      let rowLabel = if i == 0 then " " else [s1!!(i-1)]
+      putStrLn (rowLabel ++ " " ++ intercalate " " (map (show . (sm!)) [(i, j) | j <- [0..n]]))
 
 -- Programa principal
 main :: IO ()
@@ -76,7 +101,7 @@ main = do
       (alignedS1, alignedS2) = tracebackAlignment sm tb s1 s2
   
   putStrLn "Matriz de puntuación:"
-  print2DScoreMatrix sm
+  print2DScoreMatrix s1 s2 sm
 
   putStrLn "\nAlineamientos:"
   putStrLn alignedS1
