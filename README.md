@@ -1,5 +1,5 @@
 # Bio-sequence-alignment
-Biological sequence alignment program in Haskell
+Biological sequence *local* alignment program in Haskell
 
 ### Requirements
 
@@ -12,5 +12,5 @@ Biological sequence alignment program in Haskell
 This is a Project of Functional Programming subject.
 Task: Using Haskell define the data structures, functions, libraries, interfaces necessary to implement the selected algorithm. A program that applies the selected algorithm must be implemented. 
 
-Algorithms used:
+Algorithm used:
 - Smith-Waterman Algorithm 
